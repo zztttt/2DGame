@@ -201,7 +201,8 @@ namespace Gamekit2D
         }
 
         void FixedUpdate()
-        { 
+        {
+            //Debug.Log("FixUpdate");
             m_CharacterController2D.Move(m_MoveVector * Time.deltaTime);
             m_Animator.SetFloat(m_HashHorizontalSpeedPara, m_MoveVector.x);
             m_Animator.SetFloat(m_HashVerticalSpeedPara, m_MoveVector.y);
@@ -809,5 +810,15 @@ namespace Gamekit2D
         {
             if (KeyUI.Instance != null) KeyUI.Instance.ChangeKeyUI(m_InventoryController);
         }
+
+        public void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log("PlayerCharacter: enter OnCollisionEnter2D");
+        }
+
+        /*public void OnTriggerEnter2D(Collision2D other)
+        {
+            Debug.Log("PlayerCharacter: enter OnTriggerEnter2D");
+        }*/
     }
 }

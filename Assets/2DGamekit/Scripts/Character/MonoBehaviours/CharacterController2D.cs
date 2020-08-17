@@ -57,6 +57,17 @@ namespace Gamekit2D
 
             CheckCapsuleEndCollisions();
             CheckCapsuleEndCollisions(false);
+
+            /*m_Collider.enabled = false;
+            RaycastHit2D hit = Physics2D.Linecast(m_PreviousPosition, m_NextMovement);
+            m_Collider.enabled = true;
+            if (hit.transform == null) {
+                Debug.Log("hit null");
+            }
+            else
+            {
+                Debug.Log("hit ====================");
+            }*/
         }
 
         /// <summary>
