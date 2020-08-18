@@ -18,11 +18,13 @@ public class ButtonClick : MonoBehaviour
     public GameObject tele2;
     public GameObject tele3;
     public GameObject player;
+    public GameObject woman;
 
     private Text BagText;
 
     private HashSet<KeyValuePair<int, int>> swordSet = new HashSet<KeyValuePair<int, int>>();
     private HashSet<KeyValuePair<int, int>> tiziSet = new HashSet<KeyValuePair<int, int>>();
+    private HashSet<KeyValuePair<int, int>> alcoholSet = new HashSet<KeyValuePair<int, int>>();
     private int count = 0;
     // Start is called before the first frame update
     void Start()
@@ -73,6 +75,24 @@ public class ButtonClick : MonoBehaviour
 
         tiziSet.Add(new KeyValuePair<int, int>(6, 1));
         tiziSet.Add(new KeyValuePair<int, int>(6, 5));
+
+        // generate alcohol
+        alcoholSet.Add(new KeyValuePair<int, int>(0, 1));
+        alcoholSet.Add(new KeyValuePair<int, int>(0, 2));
+        alcoholSet.Add(new KeyValuePair<int, int>(0, 3));
+        alcoholSet.Add(new KeyValuePair<int, int>(0, 4));
+        alcoholSet.Add(new KeyValuePair<int, int>(0, 5));
+        alcoholSet.Add(new KeyValuePair<int, int>(1, 1));
+        alcoholSet.Add(new KeyValuePair<int, int>(1, 5));
+        alcoholSet.Add(new KeyValuePair<int, int>(2, 1));
+        alcoholSet.Add(new KeyValuePair<int, int>(2, 5));
+        alcoholSet.Add(new KeyValuePair<int, int>(3, 2));
+        alcoholSet.Add(new KeyValuePair<int, int>(3, 4));
+        alcoholSet.Add(new KeyValuePair<int, int>(4, 3));
+        alcoholSet.Add(new KeyValuePair<int, int>(5, 3));
+        alcoholSet.Add(new KeyValuePair<int, int>(6, 2));
+        alcoholSet.Add(new KeyValuePair<int, int>(6, 3));
+        alcoholSet.Add(new KeyValuePair<int, int>(6, 4));
     }
 
     // Update is called once per frame
@@ -122,7 +142,7 @@ public class ButtonClick : MonoBehaviour
             SwordAttackObj.SetActive(true);
             Invoke("showSwordAttack", 3f);
         }
-        else if(isTizi(images, rows, cols))
+        else if (isTizi(images, rows, cols))
         {
             Debug.Log("this is tizi");
 
@@ -130,7 +150,12 @@ public class ButtonClick : MonoBehaviour
             tele2.SetActive(true);
             tele3.SetActive(true);
         }
-        else {
+        else if (isAlcohol(images, rows, cols)) {
+            Debug.Log("this is alcohol");
+            woman.SendMessage("activateKey");
+        }
+        else
+        {
             Debug.Log("this is not sword");
         }
     }
@@ -206,6 +231,51 @@ public class ButtonClick : MonoBehaviour
         }
 
         if (blackCount != 23)
+        {
+            Debug.Log("count not correct");
+            return false;
+        }
+
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; ++j)
+            {
+                Image image = images[i * cols + j];
+                Color color = image.color;
+                if (color == Color.black)
+                {
+                    KeyValuePair<int, int> kv = new KeyValuePair<int, int>(i, j);
+                    if (tmp.Contains(kv))
+                    {
+                        tmp.Remove(kv);
+                    }
+                    else
+                    {
+                        Debug.Log("color not correct");
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return tmp.Count == 0 ? true : false;
+    }
+
+    public bool isAlcohol(Image[] images, int rows, int cols) {
+        HashSet<KeyValuePair<int, int>> tmp = new HashSet<KeyValuePair<int, int>>(alcoholSet);
+        int blackCount = 0;
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; ++j)
+            {
+                Image image = images[i * cols + j];
+                Color color = image.color;
+                if (color == Color.black)
+                    blackCount++;
+            }
+        }
+
+        if (blackCount != 16)
         {
             Debug.Log("count not correct");
             return false;

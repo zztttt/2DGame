@@ -6,6 +6,7 @@ public class man2Controller : MonoBehaviour
 {
     public GameObject teleporter;
     public GameObject tizi;
+    public GameObject talk;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +22,18 @@ public class man2Controller : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("man2: OnCollisionEnter2D");
-        tizi.SetActive(true);
-        Invoke("showTiziEnd", 2f);
+        talk.SetActive(true);
+        Invoke("talkEnd", 2f);
+        Invoke("showTiziStart", 2f);
+        Invoke("showTiziEnd", 4f);
     }
-
+    public void showTiziStart() {
+        tizi.SetActive(true);
+    }
     public void showTiziEnd() {
         tizi.SetActive(false);
+    }
+    public void talkEnd() {
+        talk.SetActive(false);
     }
 }

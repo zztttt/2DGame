@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class woman1Controller : MonoBehaviour
+public class finalController : MonoBehaviour
 {
+    public GameObject congratulation;
     public GameObject talk1;
     public GameObject talk2;
-    public GameObject talk3;
-    public GameObject key;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -23,13 +21,13 @@ public class woman1Controller : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("woman1: OnCollisionEnter2D");
         Invoke("talk1Start", 0f);
         Invoke("talk1End", 2f);
         Invoke("talk2Start", 2f);
         Invoke("talk2End", 4f);
-    }
 
+        Invoke("final", 4f);
+    }
     public void talkEnd(GameObject go)
     {
         go.SetActive(false);
@@ -39,10 +37,12 @@ public class woman1Controller : MonoBehaviour
         go.SetActive(true);
     }
 
-    public void talk1Start() {
+    public void talk1Start()
+    {
         talkStart(talk1);
     }
-    public void talk1End() {
+    public void talk1End()
+    {
         talkEnd(talk1);
     }
     public void talk2Start()
@@ -53,18 +53,7 @@ public class woman1Controller : MonoBehaviour
     {
         talkEnd(talk2);
     }
-    public void talk3Start()
-    {
-        talkStart(talk3);
-    }
-    public void talk3End()
-    {
-        talkEnd(talk3);
-    }
-
-    public void activateKey() {
-        key.SetActive(true);
-        Invoke("talk3Start", 0f);
-        Invoke("talk3End", 2f);
+    public void final() {
+        congratulation.SetActive(true);
     }
 }
