@@ -19,6 +19,7 @@ namespace Gamekit2D
         public Collider2D LastHit { get { return m_LastHit; } }
 
         public int damage = 1;
+        public bool m_CanDamage = false;
         public Vector2 offset = new Vector2(1.5f, 1f);
         public Vector2 size = new Vector2(2.5f, 1f);
         [Tooltip("If this is set, the offset x will be changed base on the sprite flipX setting. e.g. Allow to make the damager alway forward in the direction of sprite")]
@@ -37,7 +38,6 @@ namespace Gamekit2D
         public NonDamagableEvent OnNonDamageableHit;
 
         protected bool m_SpriteOriginallyFlipped;
-        protected bool m_CanDamage = true;
         protected ContactFilter2D m_AttackContactFilter;
         protected Collider2D[] m_AttackOverlapResults = new Collider2D[10];
         protected Transform m_DamagerTransform;
@@ -68,7 +68,10 @@ namespace Gamekit2D
         void FixedUpdate()
         {
             if (!m_CanDamage)
+            {
+                Debug.Log("player cann't damage!");
                 return;
+            }
 
             Vector2 scale = m_DamagerTransform.lossyScale;
 

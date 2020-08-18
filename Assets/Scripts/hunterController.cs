@@ -9,6 +9,8 @@ public class hunterController : MonoBehaviour
     private Animator animator;
 
     public GameObject swordImage;
+    public GameObject swordTalk;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -29,13 +31,19 @@ public class hunterController : MonoBehaviour
         Debug.Log("hunter: OnCollisionEnter2D");
 
         animator.SetTrigger("talk");
-        if (swordImage.activeSelf == false) {
-            swordImage.SetActive(true);
-            Invoke("showSwordImageEnd", 5f);
+        if (swordTalk.activeSelf == false) {
+            swordTalk.SetActive(true);
+            //EnablePlayerAttack();
+            Invoke("showSwordImageEnd", 3f);
         }
     }
 
     private void showSwordImageEnd() {
-        swordImage.SetActive(false);
+        swordTalk.SetActive(false);
+    }
+
+    private void EnablePlayerAttack() {
+        Debug.Log("EnablePlayerAttack");
+        player.SendMessage("EnableMeleeAttacking");
     }
 }

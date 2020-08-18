@@ -10,7 +10,9 @@ public class ButtonClick : MonoBehaviour
     public GameObject ClickButtonObj;
     public GameObject OpenButtonObj;
     public GameObject CloseButtonObj;
+    public GameObject SwordAttackObj;
     public GameObject imageHolder;
+    public GameObject player;
 
     private Text BagText;
 
@@ -67,6 +69,7 @@ public class ButtonClick : MonoBehaviour
 
     public void close() {
         BagObj.SetActive(false);
+        resetImagesColor();
     }
 
     public void generate() {
@@ -78,17 +81,12 @@ public class ButtonClick : MonoBehaviour
         
         Debug.Log("rows:" + rows+ ", cols:" + cols);
 
-        /*for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
-                Image image = images[i * cols + j];
-                Color color = image.color;
-                if (color == Color.black)
-                    Debug.Log("Black: row:" + i + ", col:" + j);
-            }
-        }*/
         if (isSword(images, rows, cols))
         {
             Debug.Log("this is sword");
+            EnablePlayerAttack();
+            SwordAttackObj.SetActive(true);
+            Invoke("showSwordAttack", 3f);
         }
         else {
             Debug.Log("this is not sword");
@@ -136,5 +134,28 @@ public class ButtonClick : MonoBehaviour
         }
 
         return tmp.Count == 0 ? true:false;
+    }
+
+    public void resetImagesColor() {
+        GridLayoutGroup gridLayoutGroup = imageHolder.GetComponent<GridLayoutGroup>();
+        int rows = gridLayoutGroup.constraintCount;
+        Image[] images = imageHolder.GetComponentsInChildren<Image>();
+        int count = images.Length, cols = count / rows;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                Image image = images[i * cols + j];
+                image.color = Color.white;
+            }
+        }
+    }
+
+    private void EnablePlayerAttack()
+    {
+        Debug.Log("EnablePlayerAttack");
+        player.SendMessage("EnableMeleeAttacking");
+    }
+
+    private void showSwordAttack() {
+        SwordAttackObj.SetActive(false);
     }
 }
