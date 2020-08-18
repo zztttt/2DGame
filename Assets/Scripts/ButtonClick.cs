@@ -14,11 +14,15 @@ public class ButtonClick : MonoBehaviour
     public GameObject OpenRepoButtonObj;
     public GameObject SwordAttackObj;
     public GameObject imageHolder;
+    public GameObject tele1;
+    public GameObject tele2;
+    public GameObject tele3;
     public GameObject player;
 
     private Text BagText;
 
     private HashSet<KeyValuePair<int, int>> swordSet = new HashSet<KeyValuePair<int, int>>();
+    private HashSet<KeyValuePair<int, int>> tiziSet = new HashSet<KeyValuePair<int, int>>();
     private int count = 0;
     // Start is called before the first frame update
     void Start()
@@ -41,6 +45,34 @@ public class ButtonClick : MonoBehaviour
         swordSet.Add(new KeyValuePair<int, int>(5, 1));
         swordSet.Add(new KeyValuePair<int, int>(5, 3));
         swordSet.Add(new KeyValuePair<int, int>(6, 0));
+
+        // generate tizi
+        tiziSet.Add(new KeyValuePair<int, int>(0, 1));
+        tiziSet.Add(new KeyValuePair<int, int>(0, 5));
+        tiziSet.Add(new KeyValuePair<int, int>(1, 1));
+        tiziSet.Add(new KeyValuePair<int, int>(1, 2));
+        tiziSet.Add(new KeyValuePair<int, int>(1, 3));
+        tiziSet.Add(new KeyValuePair<int, int>(1, 4));
+        tiziSet.Add(new KeyValuePair<int, int>(1, 5));
+
+        tiziSet.Add(new KeyValuePair<int, int>(2, 1));
+        tiziSet.Add(new KeyValuePair<int, int>(2, 5));
+        tiziSet.Add(new KeyValuePair<int, int>(3, 1));
+        tiziSet.Add(new KeyValuePair<int, int>(3, 2));
+        tiziSet.Add(new KeyValuePair<int, int>(3, 3));
+        tiziSet.Add(new KeyValuePair<int, int>(3, 4));
+        tiziSet.Add(new KeyValuePair<int, int>(3, 5));
+
+        tiziSet.Add(new KeyValuePair<int, int>(4, 1));
+        tiziSet.Add(new KeyValuePair<int, int>(4, 5));
+        tiziSet.Add(new KeyValuePair<int, int>(5, 1));
+        tiziSet.Add(new KeyValuePair<int, int>(5, 2));
+        tiziSet.Add(new KeyValuePair<int, int>(5, 3));
+        tiziSet.Add(new KeyValuePair<int, int>(5, 4));
+        tiziSet.Add(new KeyValuePair<int, int>(5, 5));
+
+        tiziSet.Add(new KeyValuePair<int, int>(6, 1));
+        tiziSet.Add(new KeyValuePair<int, int>(6, 5));
     }
 
     // Update is called once per frame
@@ -89,6 +121,14 @@ public class ButtonClick : MonoBehaviour
             EnablePlayerAttack();
             SwordAttackObj.SetActive(true);
             Invoke("showSwordAttack", 3f);
+        }
+        else if(isTizi(images, rows, cols))
+        {
+            Debug.Log("this is tizi");
+
+            tele1.SetActive(true);
+            tele2.SetActive(true);
+            tele3.SetActive(true);
         }
         else {
             Debug.Log("this is not sword");
@@ -149,6 +189,51 @@ public class ButtonClick : MonoBehaviour
         }
 
         return tmp.Count == 0 ? true:false;
+    }
+
+    public bool isTizi(Image[] images, int rows, int cols) {
+        HashSet<KeyValuePair<int, int>> tmp = new HashSet<KeyValuePair<int, int>>(tiziSet);
+        int blackCount = 0;
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; ++j)
+            {
+                Image image = images[i * cols + j];
+                Color color = image.color;
+                if (color == Color.black)
+                    blackCount++;
+            }
+        }
+
+        if (blackCount != 23)
+        {
+            Debug.Log("count not correct");
+            return false;
+        }
+
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; ++j)
+            {
+                Image image = images[i * cols + j];
+                Color color = image.color;
+                if (color == Color.black)
+                {
+                    KeyValuePair<int, int> kv = new KeyValuePair<int, int>(i, j);
+                    if (tmp.Contains(kv))
+                    {
+                        tmp.Remove(kv);
+                    }
+                    else
+                    {
+                        Debug.Log("color not correct");
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return tmp.Count == 0 ? true : false;
     }
 
     public void resetImagesColor() {
