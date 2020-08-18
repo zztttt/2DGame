@@ -36,8 +36,10 @@ public class imageController : MonoBehaviour
                 if (go.tag == "static")
                     return;
                 Debug.Log("Click UI");
+#if UNITY_EDITOR
                 EditorGUIUtility.PingObject(go);
                 Selection.activeObject = go;
+#endif
 
                 // update image
                 Image image = go.GetComponent<Image>();

@@ -36,7 +36,7 @@ namespace Gamekit2D
                 throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
 
             // disable attack
-            Debug.Log("disable attack");
+            //Debug.Log("disable attack");
             DisableMeleeAttacking();
         }
 

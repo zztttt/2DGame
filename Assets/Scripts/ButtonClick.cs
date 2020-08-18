@@ -7,9 +7,11 @@ public class ButtonClick : MonoBehaviour
 {
     public GameObject BagTextObj;
     public GameObject BagObj;
+    public GameObject RepoObj;
     public GameObject ClickButtonObj;
     public GameObject OpenButtonObj;
     public GameObject CloseButtonObj;
+    public GameObject OpenRepoButtonObj;
     public GameObject SwordAttackObj;
     public GameObject imageHolder;
     public GameObject player;
@@ -90,6 +92,19 @@ public class ButtonClick : MonoBehaviour
         }
         else {
             Debug.Log("this is not sword");
+        }
+    }
+
+    public void openRepo() {
+        Debug.Log("open repo");
+        if (RepoObj.activeSelf == true)
+        {
+            Debug.Log("Repo is already active");
+            RepoObj.SetActive(false);
+        }
+        else {
+            Debug.Log("Open Repo");
+            RepoObj.SetActive(true);
         }
     }
 
